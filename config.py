@@ -219,13 +219,15 @@ keys = [
              ])
 ]
 
-group_names = [("WWW", {'layout': 'monadtall'}),
-               ("DEV", {'layout': 'monadtall'}),
-               ("SYS", {'layout': 'monadtall'}),
-               ("DOC", {'layout': 'monadtall'}),
-               ("VBOX", {'layout': 'monadtall'}),
+#"   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
+
+group_names = [("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
                # ("CHAT", {'layout': 'monadtall'}),
-               ("MUS", {'layout': 'monadtall'})
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'})
                #("VID", {'layout': 'monadtall'}),
                #("GFX", {'layout': 'floating'})
                ]
@@ -330,8 +332,8 @@ def init_widgets_list():
             background=colors[0]
         ),
         widget.GroupBox(
-            font="Ubuntu Bold",
-            fontsize=9,
+            font="Nerd",
+            fontsize=16,
             margin_y=3,
             margin_x=0,
             padding_y=5,
@@ -347,11 +349,11 @@ def init_widgets_list():
             other_current_screen_border=colors[6],
             other_screen_border=colors[4],
             foreground=colors[2],
-            background=colors[0]
+            background=colors[0]            
         ),
         widget.Prompt(
             prompt=prompt,
-            font="Ubuntu Mono",
+            font="Nerd",
             padding=10,
             foreground=colors[3],
             background=colors[1]
@@ -374,15 +376,15 @@ def init_widgets_list():
             padding=5
         ),
         widget.Sep(
-            linewidth=0,
+            linewidth=10,
             padding=6,
             foreground=colors[0],
             background=colors[0]
         ),
         widget.TextBox(
-            text='⫷',
+            text='',
+            foreground=colors[5],
             background=colors[0],
-            foreground=colors[4],
             padding=0,
             fontsize=37
         ),
@@ -390,22 +392,23 @@ def init_widgets_list():
             interface="wlan0",
             format='{down} ↓↑ {up}',
             foreground=colors[2],
-            background=colors[4],
+            background=colors[5],
             padding=5
         ),
 
+
         widget.TextBox(
-            text='⫷',
-            foreground=colors[0],
-            background=colors[4],
+            text='',
+            foreground=colors[4],
+            background=colors[5],
             padding=0,
             fontsize=37
         ),
         widget.TextBox(
-            text=" ⟳",
+            text="⟳",
             padding=2,
             foreground=colors[2],
-            background=colors[5],
+            background=colors[4],
             fontsize=14
         ),
         widget.CheckUpdates(
@@ -413,14 +416,14 @@ def init_widgets_list():
             distro="Arch_checkupdates",
             display_format="{updates} Updates",
             mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(
-                myTerm + ' -e sudo pacman -Sy')},
+                myTerm + '-e pacman -Sy')},
             foreground=colors[2],
-            background=colors[5],
+            background=colors[4],
         ),
 
 
         widget.TextBox(
-            text='⫷',
+            text='',
             background=colors[4],
             foreground=colors[5],
             padding=0,
@@ -441,7 +444,7 @@ def init_widgets_list():
             padding=5
         ),
         widget.TextBox(
-            text='⫷',
+            text='',
             background=colors[5],
             foreground=colors[4],
             padding=0,
@@ -466,7 +469,7 @@ def init_widgets_list():
         ),
 
         widget.TextBox(
-            text='⫷',
+            text='',
             background=colors[4],
             foreground=colors[5],
             padding=0,
@@ -490,7 +493,7 @@ def init_widgets_list():
         ),
 
         widget.TextBox(
-            text='⫷',
+            text='',
             background=colors[5],
             foreground=colors[4],
             padding=0,
@@ -510,7 +513,7 @@ def init_widgets_list():
             padding=5
         ),
         widget.TextBox(
-            text='⫷',
+            text='',
             background=colors[4],
             foreground=colors[5],
             padding=0,
