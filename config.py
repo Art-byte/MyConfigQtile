@@ -10,7 +10,9 @@ from libqtile import layout, bar, widget, hook
 from libqtile.lazy import lazy
 from typing import List  # noqa: F401
 
-mod = "mod4"                                     # Sets mod key to SUPER/WINDOWS
+mod = "mod4"
+control = "control"
+alt = "alt"                             # Sets mod key to SUPER/WINDOWS
 myTerm = "xfce4-terminal"                             # My terminal of choice
 
 __all__ = ['Volume']
@@ -24,7 +26,6 @@ keys = [
         ),
     Key([mod, "shift"], "Return",
         lazy.spawn("dmenu_run -p 'Run: '"),
-        # lazy.spawn("rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\""),
         desc='Run Launcher'
         ),
     Key([mod], "Tab",
@@ -142,6 +143,7 @@ keys = [
         lazy.layout.toggle_split(),
         desc='Toggle between split and unsplit sides of stack'
         ),
+
     # Emacs programs launched using the key chord CTRL+e followed by 'key'
     KeyChord(["control"], "e", [
              Key([], "e",
@@ -178,6 +180,8 @@ keys = [
                  desc='Launch vterm inside Emacs'
                  )
              ]),
+
+
     # Dmenu scripts launched using the key chord SUPER+p followed by 'key'
     KeyChord([mod], "p", [
              Key([], "e",
@@ -219,17 +223,16 @@ keys = [
              ])
 ]
 
+# Se necesita font Nerd en el Sistema para leer estos iconos
 #"   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
 
 group_names = [("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
                ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               # ("CHAT", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'}),
-               ("", {'layout': 'monadtall'})
-               #("VID", {'layout': 'monadtall'}),
-               #("GFX", {'layout': 'floating'})
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'}),
+               ("", {'layout': 'monadtall'})
                ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
@@ -242,12 +245,12 @@ for i, (name, kwargs) in enumerate(group_names, 1):
 
 layout_theme = {"border_width": 2,
                 "margin": 8,
-                "border_focus": "e1acff",
-                "border_normal": "1D2330"
+                "border_focus": "#110a14",
+                "border_normal": "#110a14"
                 }
 
 layouts = [
-    # layout.MonadWide(**layout_theme),
+    layout.MonadWide(**layout_theme),
     # layout.Bsp(**layout_theme),
     #layout.Stack(stacks=2, **layout_theme),
     # layout.Columns(**layout_theme),
@@ -256,7 +259,7 @@ layouts = [
     # layout.VerticalTile(**layout_theme),
     # layout.Matrix(**layout_theme),
     # layout.Zoomy(**layout_theme),
-    layout.MonadTall(**layout_theme),
+    layout.MonadTall(**layout_theme,),
     layout.Max(**layout_theme),
     layout.Stack(num_stacks=2),
     layout.RatioTile(**layout_theme),
@@ -278,24 +281,32 @@ layouts = [
         section_bottom=20,
         level_shift=8,
         vspace=3,
-        panel_width=200
+        panel_width=300
     ),
     layout.Floating(**layout_theme)
 ]
 
-colors = [["#282c34", "#282c34"],  # 0 panel background
-          ["#3d3f4b", "#434758"],  # 1 background for current screen tab
+colors = [["#262424", "#262424"],  # 0 panel background
+          ["#434758", "#434758"],  # 1 background for current screen tab
           ["#ffffff", "#ffffff"],  # 2 font color for group names
-          ["#ff5555", "#ff5555"],  # 3 border line color for current tab
+          ["#CB3030", "#CB3030"],  # 3 border line color for current tab
+
+
           # border line color for 'other tabs' and color for 'odd widgets'
-          ["#74438f", "#74438f"],
-          ["#1f3461", "#1f3461"],  # 4 color for the 'even widgets'RRR
-          ["#ffffff", "#ffffff"],  # 5 window name
-          ["#ecbbfb", "#ecbbfb"],  # 6
-          ["#f22439", "#f22439"],  # 7 Color Red
-          ["#961a96", "#961a96"],  # 8 Color Purple
-          ["#daf511", "#daf511"],  # 9 Color yellow
-          ["#08c932", "#08c932"]  # 10 Color green
+          ["#74438f", "#74438f"],  # 4
+          ["#1f3461", "#1f3461"],  # 5 color for the 'even widgets'RRR
+          ["#ffffff", "#ffffff"],  # 6 window name
+          ["#ecbbfb", "#ecbbfb"],  # 7
+          ["#b82323", "#b82323"],  # 8 Color Red
+          ["#961a96", "#961a96"],  # 9 Color Purple
+          ["#aab512", "#aab512"],  # 10 Color yellow
+          ["#002157", "#002157"],  # 11 Color Azul verde
+          ["#625e91", "#625e91"],  # 12 Color verde
+          ["#1f3461", "#1f3461"],  # 13 Color Vino
+          ["#942c2c", "#942c2c"],  # 14 Color Vino,
+          ["#6f7370", "#6f7370"],    # 15 Gris Oscuro
+          ["#989c99", "#989c99"],  # 16 Gris claro
+          ["#911783", "#911783"]    # 17 Naranja
 
           ]  # backbround for inactive screens
 
@@ -303,8 +314,8 @@ prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
 ##### DEFAULT WIDGET SETTINGS #####
 widget_defaults = dict(
-    font="Ubuntu Mono",
-    fontsize=12,
+    font="Nerd",
+    fontsize=11,
     padding=2,
     background=colors[2]
 )
@@ -319,12 +330,17 @@ def init_widgets_list():
             foreground=colors[2],
             background=colors[0]
         ),
+
+
+        # 
         widget.Image(
             filename="/home/art/.config/qtile/icons/Arra.png",
             scale="False",
             mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(myTerm)},
             background=colors[0]
         ),
+
+
         widget.Sep(
             linewidth=0,
             padding=6,
@@ -333,23 +349,23 @@ def init_widgets_list():
         ),
         widget.GroupBox(
             font="Nerd",
-            fontsize=16,
+            fontsize=15,
             margin_y=3,
-            margin_x=0,
+            margin_x=14,
             padding_y=5,
             padding_x=3,
-            borderwidth=3,
+            borderwidth=1,
             active=colors[2],
-            inactive=colors[7],
+            inactive=colors[2],
             rounded=False,
-            highlight_color=colors[1],
+            highlight_color=colors[0],
             highlight_method="line",
             this_current_screen_border=colors[6],
             this_screen_border=colors[4],
             other_current_screen_border=colors[6],
             other_screen_border=colors[4],
             foreground=colors[2],
-            background=colors[0]            
+            background=colors[0]
         ),
         widget.Prompt(
             prompt=prompt,
@@ -358,6 +374,8 @@ def init_widgets_list():
             foreground=colors[3],
             background=colors[1]
         ),
+
+
         widget.Sep(
             linewidth=0,
             padding=40,
@@ -366,7 +384,7 @@ def init_widgets_list():
         ),
 
         widget.WindowName(
-            foreground=colors[6],
+            foreground=colors[0],
             background=colors[0],
             padding=0
         ),
@@ -376,91 +394,129 @@ def init_widgets_list():
             padding=5
         ),
         widget.Sep(
-            linewidth=10,
+            linewidth=0,
             padding=6,
             foreground=colors[0],
             background=colors[0]
         ),
         widget.TextBox(
-            text='',
-            foreground=colors[5],
+            text='[',
+            foreground=colors[2],
             background=colors[0],
             padding=0,
-            fontsize=37
+            fontsize=15
         ),
         widget.Net(
             interface="wlan0",
-            format='{down} ↓↑ {up}',
+            format='{down}↓↑{up}',
+            font='Nerd',
             foreground=colors[2],
-            background=colors[5],
+            background=colors[0],
             padding=5
         ),
 
 
         widget.TextBox(
-            text='',
-            foreground=colors[4],
-            background=colors[5],
+            text=']  [',
+            foreground=colors[2],
+            background=colors[0],
             padding=0,
-            fontsize=37
+            fontsize=15
         ),
         widget.TextBox(
-            text="⟳",
+            text="",
             padding=2,
             foreground=colors[2],
-            background=colors[4],
+            background=colors[0],
             fontsize=14
         ),
         widget.CheckUpdates(
             update_interval=1800,
-            distro="Arch_checkupdates",
+            # distro="Arch_checkupdates",
             display_format="{updates} Updates",
-            mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(
-                myTerm + '-e pacman -Sy')},
+            custom_command='checkupdates',
+            mouse_callbacks={'Button3': lambda: qtile.cmd_spawn(
+                myTerm + 'sudo -e pacman -Sy')},
             foreground=colors[2],
-            background=colors[4],
+            font='Nerd',
+            background=colors[0],
         ),
 
 
         widget.TextBox(
-            text='',
-            background=colors[4],
-            foreground=colors[5],
+            text=']  [',
+            background=colors[0],
+            foreground=colors[2],
             padding=0,
-            fontsize=37
+            fontsize=15
         ),
+
+
         widget.TextBox(
             text=" 🖬",
             foreground=colors[2],
-            background=colors[5],
+            background=colors[0],
             padding=0,
             fontsize=14
         ),
         widget.Memory(
             foreground=colors[2],
-            background=colors[5],
+            background=colors[0],
+            font='Nerd',
             mouse_callbacks={
-                'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e gtop')},
-            padding=5
+                'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e bashtop')},
+            padding=3
         ),
+
+
         widget.TextBox(
-            text='',
-            background=colors[5],
-            foreground=colors[4],
+            text=']  [',
+            background=colors[0],
+            foreground=colors[2],
             padding=0,
-            fontsize=37
+            fontsize=15
         ),
+
+        widget.ThermalSensor(
+            background = colors[0],
+            fmt = '{}',
+            font = "Nerd",
+            fontsize = 12,
+            foreground = colors[2],
+            foreground_alert = colors[8],
+            markup = True,
+            max_chars = 0,
+            metric = True,
+            padding = 3,
+            show_tag = False,
+            threshold = 70,
+            update_interal=2
+ 
+        ),
+
+
         widget.TextBox(
-            text=" ϟ Battery",
+            text=']  [',
+            background=colors[0],
+            foreground=colors[2],
+            padding=0,
+            fontsize=15
+        ),
+
+        # Icono de bateria
+        widget.TextBox(
+            text="",
             padding=0,
             foreground=colors[2],
-            background=colors[4],
+            background=colors[0],
+            font='Nerd',
             fontsize=12
         ),
 
         widget.Battery(
             foreground=colors[2],
-            background=colors[4],
+            background=colors[0],
+            font='Nerd',
             battery=0,
             low_porcentage=0.1,
             low_foreground="#00b02f",
@@ -469,22 +525,57 @@ def init_widgets_list():
         ),
 
         widget.TextBox(
-            text='',
-            background=colors[4],
-            foreground=colors[5],
+            text=']  [',
+            background=colors[0],
+            foreground=colors[2],
             padding=0,
-            fontsize=37
+            fontsize=15
         ),
         widget.TextBox(
-            text=" ♪ Vol:",
+            text=' CMUS: ',
+            background=colors[0],
             foreground=colors[2],
-            background=colors[5],
+            padding=0,
+            mouse_callbacks={
+                'Button2': lambda: qtile.cmd_spawn(myTerm + '-e cmus')},
+            fontsize=12
+        ),
+
+        widget.Cmus(
+            background=colors[0],
+            font='Nerd',
+            fontshadow=None,
+            fontsize=12,
+            foreground=colors[1],
+            markup=True,
+            max_chars=0,
+            noplay_color=colors[2],
+            padding=3,
+            play_color=colors[2],
+            mouse_callbacks={
+                'Button2': lambda: qtile.cmd_spawn(myTerm + 'cmus')},
+            update_interval=0.5
+        ),
+
+        widget.TextBox(
+            text=']  [',
+            background=colors[0],
+            foreground=colors[2],
+            padding=0,
+            fontsize=15
+        ),
+
+        widget.TextBox(
+            text="",
+            foreground=colors[2],
+            background=colors[0],
             padding=0
         ),
 
         widget.Volume(
             foreground=colors[2],
-            background=colors[5],
+            background=colors[0],
+            font='Nerd',
             padding=5,
             volume_down_command="amixer set Master 5%-",
             volume_up_command="amixer set Master 10%+",
@@ -493,37 +584,48 @@ def init_widgets_list():
         ),
 
         widget.TextBox(
-            text='',
-            background=colors[5],
-            foreground=colors[4],
+            text=']  [',
+            background=colors[0],
+            foreground=colors[2],
             padding=0,
-            fontsize=37
+            fontsize=15
         ),
         widget.CurrentLayoutIcon(
             custom_icon_paths=[os.path.expanduser(
                 "/home/art/.config/qtile/icons/")],
             foreground=colors[0],
-            background=colors[4],
+            background=colors[0],
             padding=0,
             scale=0.7
         ),
         widget.CurrentLayout(
             foreground=colors[2],
-            background=colors[4],
+            background=colors[0],
+            font='Nerd',
+
             padding=5
         ),
         widget.TextBox(
-            text='',
-            background=colors[4],
-            foreground=colors[5],
+            text=']  [',
+            background=colors[0],
+            foreground=colors[2],
             padding=0,
-            fontsize=37
+            fontsize=15
         ),
         widget.Clock(
             foreground=colors[2],
-            background=colors[5],
-            format="%A, %B %d - %H:%M "
+            background=colors[0],
+            font='Nerd',
+            format=" %A, %B %d - %H:%M "
         ),
+
+        widget.TextBox(
+            text=']  ',
+            background=colors[0],
+            foreground=colors[2],
+            padding=0,
+            fontsize=15
+        )
     ]
     return widgets_list
 
@@ -591,7 +693,7 @@ mouse = [
          start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
+    Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
 dgroups_key_binder = None
@@ -633,7 +735,7 @@ wmname = "LG3D"
 
 
 autostart = [
-    "feh --bg-fill /home/art/.config/qtile/background/archBlack.jpg",
+    "feh --bg-fill /home/art/.config/qtile/background/skull.jpg",
     "picom --no-vsync &",
     "nm-applet &",
 ]
